@@ -1,74 +1,15 @@
-import requests
+import os
+#import requests
+import subprocess
 
-import colorama
-from colorama import Fore, Back, Style
-colorama.init()
+nickname = input("enter nickname: ")
 
-print(Fore.GREEN + '''
- /$$   /$$ /$$           /$$                                                   /$$$$$$$$ /$$                 /$$                    
-| $$$ | $$|__/          | $$                                                  | $$_____/|__/                | $$                    
-| $$$$| $$ /$$  /$$$$$$$| $$   /$$ /$$$$$$$   /$$$$$$  /$$$$$$/$$$$   /$$$$$$ | $$       /$$ /$$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$ 
-| $$ $$ $$| $$ /$$_____/| $$  /$$/| $$__  $$ |____  $$| $$_  $$_  $$ /$$__  $$| $$$$$   | $$| $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$
-| $$  $$$$| $$| $$      | $$$$$$/ | $$  \ $$  /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$| $$__/   | $$| $$  \ $$| $$  | $$| $$$$$$$$| $$  \__/
-| $$\  $$$| $$| $$      | $$_  $$ | $$  | $$ /$$__  $$| $$ | $$ | $$| $$_____/| $$      | $$| $$  | $$| $$  | $$| $$_____/| $$      
-| $$ \  $$| $$|  $$$$$$$| $$ \  $$| $$  | $$|  $$$$$$$| $$ | $$ | $$|  $$$$$$$| $$      | $$| $$  | $$|  $$$$$$$|  $$$$$$$| $$      
-|__/  \__/|__/ \_______/|__/  \__/|__/  |__/ \_______/|__/ |__/ |__/ \_______/|__/      |__/|__/  |__/ \_______/ \_______/|__/      
+listdir = os.listdir("services/")
 
-''')
-print('''..........................................................................................coded by https://github.com/restanse
-
-''')
-                                                                             
-nick = input("enter nickname: ")
-
-
-
-
-
-
-def osint(list):
-	file = open(list) 
-
-
-	for line in file:
-		name = line.split(' ')[0]
-		site = line.split(' ')[1]
-		
-		
-		
-		site = site.rstrip("\n")
-		url = site + nick
-		
-		
-		
-		try:
-			r = requests.get(url)
-	
-			if r.status_code == 200:
-
-				print(Fore.GREEN + "found " + name + ": " + url)
-			else:
-				print(Fore.RED + name + " not found")
-		except:
-			print(Fore.YELLOW + "request error for " + name)
-
-	file.close()
-
-print(Fore.WHITE + "social networks and messangers:")
-osint("snm.txt")
-
-print(Fore.WHITE + "videohostings:")
-osint("vh.txt")
-
-print(Fore.WHITE + "games:")
-osint("games.txt")
-
-
-print(Fore.WHITE + "forums: ")
-osint("forums.txt")
-
-print(Fore.WHITE + "money: ")
-osint("money.txt")
-
-print(Fore.WHITE + "other sites: ")
-osint("other.txt")
+for filename in listdir:
+    try:
+        output = subprocess.check_output("python3 services/{0} {1}".format(filename,nickname), universal_newlines=True, shell=True)
+        output = output[0:len(output)-1]
+        print("[{0}] found: {1}".format(filename[0:len(filename)-3], output))
+    except subprocess.CalledProcessError:
+        print("[{0}] not found".format(filename[0:len(filename)-3]))

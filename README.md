@@ -1,25 +1,14 @@
 # NicknameFinder
 OSINT tool for search by nickname
 
-Currently looking at 45  сайта
-
-
-
-How to use:
-
-
-
-
+### Installation
+```bash
 git clone https://github.com/restanse/NicknameFinder.git
-
-
 cd NicknameFinder
+pip3 install -r requriments.txt
+```
 
-pip install -r requriments.txt
-
-
-
-
-python NicknameFinder.py
-
-enter your nickname
+### Usage
+```bash
+python3 NicknameFinder.py username
+```
